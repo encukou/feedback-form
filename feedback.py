@@ -2,8 +2,12 @@ from collections import namedtuple
 import base64
 import os
 import urllib.parse
+import csv
+import io
+import hashlib
 
 from flask import Flask, render_template, request, abort, redirect, url_for
+from flask import Response
 from jinja2 import StrictUndefined
 from flask_sqlalchemy import SQLAlchemy
 import click
@@ -49,7 +53,10 @@ class SimpleFeedback(db.Model):
                           server_default=db.func.now())
 
 
-SIMPLE_QUESTIONS = 'mark', 'message'
+SIMPLE_QUESTIONS = 'mark', 'message', 'secret'
+PRIVATE_QUESTIONS = ['secret']
+
+assert set(PRIVATE_QUESTIONS) < set(SIMPLE_QUESTIONS)
 
 
 def add_order(*items):
@@ -123,6 +130,30 @@ def form(token=None):
         token=token,
         show_thankyou=show_thankyou,
     )
+
+@app.route('/results/')
+def results():
+    result_file = io.StringIO()
+    with result_file as f:
+        writer = csv.DictWriter(f, ['user_hash', 'lesson', 'category', 'answer'])
+        writer.writeheader()
+        for feedback in LessonFeedback.query.order_by(db.func.random()):
+            writer.writerow({
+                'user_hash': hashlib.sha256(feedback.token.encode('utf-8')).hexdigest(),
+                'category': feedback.category_slug,
+                'lesson': feedback.lesson_slug,
+                'answer': feedback.mark,
+            })
+        for feedback in SimpleFeedback.query.order_by(db.func.random()):
+            if feedback.question_slug in PRIVATE_QUESTIONS:
+                writer.writerow({
+                    'user_hash': hashlib.sha256(feedback.token.encode('utf-8')).hexdigest(),
+                    'category': feedback.question_slug,
+                    'answer': feedback.answer,
+                })
+        return Response(response=result_file.getvalue(),
+                        headers={"Content-Disposition": 'inline; filename="results.csv"'},
+                        mimetype='text/csv')
 
 
 INITIAL_CATEGORIES = add_order(

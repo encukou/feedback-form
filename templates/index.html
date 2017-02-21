@@ -134,7 +134,7 @@
                     <p>
                         Dotazník je anonymní.
                         Všechny otázky jsou nepovinné.
-                        Odpovědi zveřejníme.
+                        Odpovědi jsou <a href="{{ url_for('results') }}">veřejné</a>.
                     </p>
                 </div>
             </div>
@@ -201,6 +201,18 @@
                     </label>
                     <textarea class="form-control" id="message" name="message" rows="5">
                         {{- simple_feedback.get('message', '') -}}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="example-text-input">
+                        Soukromá poznámka
+                        <span class="text-muted">
+                            – Chceš něco vzkázat <em>jenom</em> nám?
+                            Tuhle odpověď nebudeme zveřejňovat.
+                        </span>
+                    </label>
+                    <textarea class="form-control" id="secret" name="secret" rows="5">
+                        {{- simple_feedback.get('secret', '') -}}
                     </textarea>
                 </div>
                 <div class="form-group form-inline">
