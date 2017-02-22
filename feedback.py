@@ -164,8 +164,8 @@ INITIAL_CATEGORIES = add_order(
 )
 
 INITIAL_LESSONS = add_order(
-    Lesson(slug='flask-click', title='Flask & Click'),
-    Lesson(slug='requests', title='Requests'),
+    Lesson(slug='requests-click', title='Requests & Click'),
+    Lesson(slug='flask', title='Flask'),
     Lesson(slug='moduly', title='Moduly & PyPI'),
     Lesson(slug='testovani', title='Testování'),
     Lesson(slug='dokumentace', title='Dokumentace'),
