@@ -116,7 +116,8 @@
                 <div class="alert alert-success" role="alert">
                     Děkujeme, že sis na našel/našla čas hodnocení!
                     Budeš-li chtít odpovědi změnit nebo doplnit,
-                    vrať se na tuto stránku.
+                    vrať se na tuto stránku
+                    (<a href="{{ url_for('form', token=token) }}">permalink</a>).
                 </div>
             {% endif %}
             <h1>Hodnocení předmětu MI-PYT</h1>
