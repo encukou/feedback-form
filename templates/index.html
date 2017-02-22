@@ -144,7 +144,7 @@
                     </div>
                     {% for category in categories %}
                         <div class="col-lg align-self-center">
-                            <span class="hidden-md-up">{{ octicon(category.icon) }}</span>
+                            <span class="hidden-sm-up">{{ octicon(category.icon) }}</span>
                             {{ category.question }}
                         </div>
                     {% endfor %}
@@ -156,7 +156,7 @@
                     </h3>
                     {% for category in categories %}
                     <div class="col-lg align-self-center rating-group rating-group-{{ category.slug }}">
-                        <span class="hidden-lg-up hidden-sm-down">{{ category.question }}</span>
+                        <span class="hidden-lg-up hidden-xs-down">{{ category.question }}</span>
                         {% for mark in "ABCDEF" %}
                             {% set name %}feedback-{{ category.slug }}-{{ lesson.slug }}{% endset %}
                             {% set id %}{{ name }}-{{ mark }}{% endset %}
