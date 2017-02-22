@@ -131,7 +131,7 @@ def form(token=None):
         show_thankyou=show_thankyou,
     )
 
-@app.route('/results/')
+@app.route('/results.csv')
 def results():
     result_file = io.StringIO()
     with result_file as f:
