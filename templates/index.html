@@ -234,6 +234,14 @@
                 </div>
                 <div class="form-group">
                     <label for="example-text-input">
+                        Jaká témata ti v kurzu chyběla?
+                    </label>
+                    <textarea class="form-control" id="missing" name="missing" rows="5">
+                        {{- simple_feedback.get('missing', '') -}}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="example-text-input">
                         Poznámka
                         <span class="text-muted">
                             – Chceš nám něco vzkázat?

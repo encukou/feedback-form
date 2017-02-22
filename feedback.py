@@ -53,7 +53,7 @@ class SimpleFeedback(db.Model):
                           server_default=db.func.now())
 
 
-SIMPLE_QUESTIONS = 'mark', 'message', 'secret'
+SIMPLE_QUESTIONS = 'mark', 'missing', 'message', 'secret'
 PRIVATE_QUESTIONS = ['secret']
 
 assert set(PRIVATE_QUESTIONS) < set(SIMPLE_QUESTIONS)
