@@ -145,7 +145,7 @@ def results():
                 'answer': feedback.mark,
             })
         for feedback in SimpleFeedback.query.order_by(db.func.random()):
-            if feedback.question_slug in PRIVATE_QUESTIONS:
+            if feedback.question_slug not in PRIVATE_QUESTIONS:
                 writer.writerow({
                     'user_hash': hashlib.sha256(feedback.token.encode('utf-8')).hexdigest(),
                     'category': feedback.question_slug,
