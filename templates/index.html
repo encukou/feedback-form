@@ -33,25 +33,32 @@
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: flex-end;
+                height: 2em;
+            }
+            svg.octicon {
+                width: 1em;
+                height: 1em;
             }
             label.rating-label {
                 display: inline-block;
-                min-width: 2em;
                 cursor: pointer;
                 text-align: center;
                 margin: 0;
                 padding: 0;
                 transition: all .2s ease-in-out;
-                width: 2em;
-                height: 2em;
-            }
-            svg.octicon {
-                width: 1.8em;
+                width: 1.6em;
                 height: 1.8em;
-                margin: auto;
+                margin: 0;
+            }
+            label.rating-label svg {
+                width: 1.6em;
+                height: 1.6em;
+            }
+            .rating-extra-question {
+                padding-left: 1em;
             }
 
-            {% for sel in rating_selectors('+ input + label') %}
+            {% for sel in rating_selectors('+ input + label.rating-label-value') %}
             label.rating-label:hover {{ sel }},
             {%- endfor %}
             ._dummy {
@@ -65,8 +72,19 @@
                     color: white;
                 }
 
+                .rating-group-{{ category.slug }} .rating-label-na {
+                    margin-right: 1ex;
+                }
+                .rating-group-{{ category.slug }} .rating-label-na svg {
+                    stroke-width: 0px;
+                    color: #C0C4C8;
+                }
+                .rating-group-{{ category.slug }} input:checked + .rating-label-na svg {
+                    color: inherit;
+                }
+
                 {% for sel in rating_selectors('+ label + input') %}
-                .rating-group-{{ category.slug }}  input[type="radio"]:checked {{ sel }} + label.rating-label svg,
+                .rating-group-{{ category.slug }}  input[type="radio"]:checked {{ sel }} + label.rating-label-value svg,
                 {%- endfor %}
                 ._dummy {
                     color: {{ category.color }};
@@ -96,6 +114,9 @@
             </g>
             <g id="octicon-star" fill="currentColor">
                 <polygon points="14 6 9.1 5.36 7 1 4.9 5.36 0 6 3.6 9.26 2.67 14 7 11.67 11.33 14 10.4 9.26"></polygon>
+            </g>
+            <g id="octicon-circle-slash" fill="currentColor">
+                <path d="M7,1 C3.14,1 0,4.14 0,8 C0,11.86 3.14,15 7,15 C10.86,15 14,11.86 14,8 C14,4.14 10.86,1 7,1 L7,1 Z M7,2.3 C8.3,2.3 9.5,2.74 10.47,3.47 L2.47,11.47 C1.74,10.5 1.3,9.3 1.3,8 C1.3,4.86 3.86,2.3 7,2.3 L7,2.3 Z M7,13.71 C5.7,13.71 4.5,13.27 3.53,12.54 L11.53,4.54 C12.26,5.51 12.7,6.71 12.7,8.01 C12.7,11.15 10.14,13.71 7,13.71 L7,13.71 Z"></path>
             </g>
         </svg>
         {% macro octicon(name) %}
@@ -136,6 +157,11 @@
                         Všechny otázky jsou nepovinné.
                         Odpovědi jsou <a href="{{ url_for('results') }}">veřejné</a>.
                     </p>
+                    <p>
+                        Jestli nechceš nebo nemůžeš odpovědět,
+                        ponech odpověď {{ octicon('circle-slash') }}
+                        <span class="sr-only">volbu "?"</span>.
+                    </p>
                 </div>
             </div>
             <form method="POST" action="{{ url_for('form', token=token) }}">
@@ -157,16 +183,25 @@
                     </h3>
                     {% for category in categories %}
                     <div class="col-lg align-self-center rating-group rating-group-{{ category.slug }}">
-                        <span class="hidden-lg-up hidden-xs-down">{{ category.question }}</span>
+                        {% set name %}feedback-{{ category.slug }}-{{ lesson.slug }}{% endset %}
+                        <span class="hidden-lg-up hidden-xs-down rating-extra-question">
+                            {{ category.question }}
+                        </span>
                         {% for mark in "ABCDEF" %}
-                            {% set name %}feedback-{{ category.slug }}-{{ lesson.slug }}{% endset %}
                             {% set id %}{{ name }}-{{ mark }}{% endset %}
                             <input class="form-check-input sr-only" {{ radio_attrs(name, mark, lesson_feedback) }}>
-                            <label class="rating-label" for="{{ id }}">
+                            <label class="rating-label rating-label-value" for="{{ id }}">
                                 <span class="sr-only">{{ mark }}</span>
                                 {{ octicon(category.icon) }}
                             </label>
                         {% endfor %}
+
+                        <!-- N/A -->
+                        <input class="form-check-input sr-only" {{ radio_attrs(name, None, lesson_feedback) }}>
+                        <label class="rating-label rating-label-na" for="{{ name }}-None">
+                            <span class="sr-only">?</span>
+                            {{ octicon('circle-slash') }}
+                        </label>
                     </div>
                     {% endfor %}
                 </div>
@@ -182,10 +217,15 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="form-check form-check-inline">
-                                {% for mark in "ABCDEF" %}
+                                {% for mark in "ABCDEF?" %}
                                 <input class="form-check-input sr-only" {{ radio_attrs('mark', mark, simple_feedback) }}>
                                 <label class="form-check-label btn" for="mark-{{ mark }}">
-                                    {{ mark }}
+                                    {% if mark == '?' %}
+                                        <span class="sr-only">{{ mark }}</span>
+                                        {{ octicon('circle-slash') }}
+                                    {% else %}
+                                        {{ mark }}
+                                    {% endif %}
                                 </label>
                                 {% endfor %}
                             </div>

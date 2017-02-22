@@ -37,7 +37,7 @@ class LessonFeedback(db.Model):
     token = db.Column(db.Unicode, primary_key=True)
     category_slug = db.Column(db.Unicode, db.ForeignKey(Category.slug), primary_key=True)
     lesson_slug = db.Column(db.Unicode, db.ForeignKey(Lesson.slug), primary_key=True)
-    mark = db.Column(db.Unicode)
+    mark = db.Column(db.Unicode, nullable=True)
     timestamp = db.Column(db.DateTime(timezone=True),
                           server_default=db.func.now())
 
@@ -48,7 +48,7 @@ class LessonFeedback(db.Model):
 class SimpleFeedback(db.Model):
     token = db.Column(db.Unicode, primary_key=True)
     question_slug = db.Column(db.Unicode, primary_key=True)
-    answer = db.Column(db.Unicode)
+    answer = db.Column(db.Unicode, nullable=True)
     timestamp = db.Column(db.DateTime(timezone=True),
                           server_default=db.func.now())
 
@@ -99,17 +99,17 @@ def form(token=None):
                     lesson_slug=lesson.slug,
                 )
                 mark = request.form.get(feedback.slug)
-                if mark:
-                    feedback.mark = mark
-                    db.session.merge(feedback)
+                if mark == 'None':
+                    mark = None
+                feedback.mark = mark
+                db.session.merge(feedback)
         for question in SIMPLE_QUESTIONS:
             answer = request.form.get(question)
-            if answer:
-                db.session.merge(SimpleFeedback(
-                    token=token,
-                    question_slug=question,
-                    answer=answer,
-                ))
+            db.session.merge(SimpleFeedback(
+                token=token,
+                question_slug=question,
+                answer=answer,
+            ))
         db.session.commit()
         return redirect(url_for('form', token=token))
 
@@ -119,6 +119,8 @@ def form(token=None):
     simple_feedback = {
         f.question_slug: f.answer
         for f in db.session.query(SimpleFeedback).filter_by(token=token)}
+
+    simple_feedback.setdefault('mark', '?')
 
     return render_template(
         'index.html',
