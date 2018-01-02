@@ -168,16 +168,17 @@ INITIAL_CATEGORIES = add_order(
 INITIAL_LESSONS = add_order(
     Lesson(slug='requests-click', title='Requests & Click'),
     Lesson(slug='flask', title='Flask'),
-    Lesson(slug='moduly', title='Moduly & PyPI'),
-    Lesson(slug='testovani', title='Testování'),
-    Lesson(slug='dokumentace', title='Dokumentace'),
     Lesson(slug='pandas', title='Pandas'),
+    Lesson(slug='distribution', title='Moduly & PyPI'),
     Lesson(slug='numpy', title='NumPy'),
+    Lesson(slug='testing', title='Testování'),
     Lesson(slug='cython', title='Cython'),
+    Lesson(slug='docs', title='Dokumentace & Sphinx'),
     Lesson(slug='pyqt', title='PyQt'),
-    Lesson(slug='async', title='Asyncio'),
-    Lesson(slug='magie', title='Magie'),
     Lesson(slug='micropython', title='MicroPython'),
+    Lesson(slug='geopython', title='GeoPython'),
+    Lesson(slug='async', title='AsyncIO'),
+    Lesson(slug='magic', title='Magie'),
     Lesson(slug='semestralka', title='Semestrálka'),
 )
 
