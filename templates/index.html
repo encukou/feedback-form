@@ -208,7 +208,7 @@
                 {% endfor %}
                 <h2>Další informace</h2>
                 <div class="form-group">
-                    <label for="example-text-input">
+                    <label for="mark-A">
                         Známka
                         <span class="text-muted">
                             – Jak jsme ohodnotili my tvůj výkon?
@@ -233,7 +233,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="example-text-input">
+                    <label for="missing">
                         Jaká témata ti v kurzu chyběla?
                     </label>
                     <textarea class="form-control" id="missing" name="missing" rows="5">
@@ -241,7 +241,20 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label for="example-text-input">
+                    <label for="future">
+                        Je dobrý nápad příští rok změnit formu výuky na přednášky/prosemináře
+                        v&nbsp;přednáškové místnosti + konzultační hodiny (místo cvičení)?
+                        <span class="text-muted">
+                            – Tato otázka je schválně otevřená, stačí napsat ano nebo ne,
+                            ale uvítáme i komplikovanější odpověď.
+                        </span>
+                    </label>
+                    <textarea class="form-control" id="future" name="future" rows="5">
+                        {{- simple_feedback.get('future', '') -}}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="message">
                         Poznámka
                         <span class="text-muted">
                             – Chceš nám něco vzkázat?
@@ -252,7 +265,7 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label for="example-text-input">
+                    <label for="secret">
                         Soukromá poznámka
                         <span class="text-muted">
                             – Chceš něco vzkázat <em>jenom</em> nám?
