@@ -242,6 +242,19 @@
                 </div>
                 <div class="form-group">
                     <label for="example-text-input">
+                        Je dobrý nápad příští rok změnit formu výuky na přednášky/prosemináře
+                        v&nbsp;přednáškové místnosti + konzultační hodiny (místo cvičení)?
+                        <span class="text-muted">
+                            – Tato otázka je schválně otevřená, stačí napsat ano nebo ne,
+                            ale uvítáme i komplikovanější odpověď.
+                        </span>
+                    </label>
+                    <textarea class="form-control" id="future" name="future" rows="5">
+                        {{- simple_feedback.get('future', '') -}}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="example-text-input">
                         Poznámka
                         <span class="text-muted">
                             – Chceš nám něco vzkázat?
