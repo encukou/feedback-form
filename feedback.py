@@ -175,10 +175,9 @@ INITIAL_LESSONS = add_order(
     Lesson(slug='cython', title='Cython'),
     Lesson(slug='docs', title='Dokumentace & Sphinx'),
     Lesson(slug='pyqt', title='PyQt'),
-    Lesson(slug='micropython', title='MicroPython'),
-    Lesson(slug='geopython', title='GeoPython'),
     Lesson(slug='async', title='AsyncIO'),
     Lesson(slug='magic', title='Magie'),
+    Lesson(slug='micropython', title='MicroPython'),
     Lesson(slug='semestralka', title='Semestrálka'),
 )
 
